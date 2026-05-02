@@ -6,6 +6,7 @@ import { Badge } from "@/components/ui/badge";
 import { FolderOpen, Users } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import ProjectForm from "@/components/forms/ProjectForm";
+import { getApiUrl } from "@/lib/utils";
 
 interface Project {
   _id: string;
@@ -36,7 +37,7 @@ const Dashboard = () => {
     queryKey: ['stats'],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/issue/stats/all`, {
+      const response = await fetch(getApiUrl("/api/issue/stats/all"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch stats');
@@ -48,7 +49,7 @@ const Dashboard = () => {
     queryKey: ['projects'],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/project`, {
+      const response = await fetch(getApiUrl("/api/project"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch projects');

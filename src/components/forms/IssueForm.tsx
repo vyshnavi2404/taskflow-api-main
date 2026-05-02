@@ -8,6 +8,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Plus, Edit } from "lucide-react";
 import { useQueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { getApiUrl } from "@/lib/utils";
 
 interface Issue {
   _id: string;
@@ -48,7 +49,7 @@ const IssueForm = ({ issue, sprintId, projectId, onSuccess, trigger }: IssueForm
     queryKey: ['users'],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/users`, {
+      const response = await fetch(getApiUrl("/auth/users"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch users');
@@ -60,8 +61,8 @@ const IssueForm = ({ issue, sprintId, projectId, onSuccess, trigger }: IssueForm
     mutationFn: async (issueData: any) => {
       const token = localStorage.getItem('token');
       const url = isEditing 
-        ? `${import.meta.env.VITE_API_BASE_URL}/api/issue/${issue._id}`
-        : `${import.meta.env.VITE_API_BASE_URL}/api/issue/${sprintId}`;
+        ? getApiUrl(`/api/issue/${issue._id}`)
+        : getApiUrl(`/api/issue/${sprintId}`);
       
       const payload = isEditing 
         ? {

@@ -11,6 +11,7 @@ import { Bug, CheckSquare, Clock, AlertCircle, Edit } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import IssueForm from "@/components/forms/IssueForm";
 import SprintForm from "@/components/forms/SprintForm";
+import { getApiUrl } from "@/lib/utils";
 
 interface Issue {
   _id: string;
@@ -45,7 +46,7 @@ const SprintDetail = () => {
     queryKey: ['sprint', sprintId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/sprint/${sprintId}`, {
+      const response = await fetch(getApiUrl(`/api/sprint/${sprintId}`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch sprint');
@@ -57,7 +58,7 @@ const SprintDetail = () => {
     queryKey: ['issues', sprintId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/issue/${sprintId}`, {
+      const response = await fetch(getApiUrl(`/api/issue/${sprintId}`), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch issues');

@@ -7,6 +7,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Plus, Edit } from "lucide-react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import { getApiUrl } from "@/lib/utils";
 
 interface Project {
   _id: string;
@@ -31,8 +32,8 @@ const ProjectForm = ({ project, onSuccess, trigger }: ProjectFormProps) => {
     mutationFn: async (projectData: { name: string; key: string; type: string }) => {
       const token = localStorage.getItem('token');
       const url = isEditing 
-        ? `${import.meta.env.VITE_API_BASE_URL}/api/project/${project._id}`
-        : `${import.meta.env.VITE_API_BASE_URL}/api/project`;
+        ? getApiUrl(`/api/project/${project._id}`)
+        : getApiUrl("/api/project");
       
       const response = await fetch(url, {
         method: isEditing ? "PUT" : "POST",

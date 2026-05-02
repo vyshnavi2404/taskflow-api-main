@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { User, Mail, Shield, Edit, Save, X } from "lucide-react";
 import Layout from "@/components/layout/Layout";
+import { getApiUrl } from "@/lib/utils";
 import { useState } from "react";
 
 interface UserProfile {
@@ -23,7 +24,7 @@ const Profile = () => {
     queryKey: ['user-profile'],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/me`, {
+      const response = await fetch(getApiUrl("/auth/me"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch user profile');
@@ -34,7 +35,7 @@ const Profile = () => {
   const updateMutation = useMutation({
     mutationFn: async (userData: { fullName: string }) => {
       const token = localStorage.getItem('token');
-      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/me`, {
+      const response = await fetch(getApiUrl("/auth/me"), {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
