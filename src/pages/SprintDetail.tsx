@@ -11,7 +11,6 @@ import { Bug, CheckSquare, Clock, AlertCircle, Edit } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import IssueForm from "@/components/forms/IssueForm";
 import SprintForm from "@/components/forms/SprintForm";
-import { getApiUrl } from "@/lib/utils";
 
 interface Issue {
   _id: string;
@@ -25,7 +24,6 @@ interface Issue {
   sprintId: string;
   projectId: string;
   subIssues?: string[];
-  dueDate?: string;
 }
 
 interface Sprint {
@@ -46,7 +44,7 @@ const SprintDetail = () => {
     queryKey: ['sprint', sprintId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(getApiUrl(`/api/sprint/${sprintId}`), {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/sprint/${sprintId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch sprint');
@@ -58,7 +56,7 @@ const SprintDetail = () => {
     queryKey: ['issues', sprintId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(getApiUrl(`/api/issue/${sprintId}`), {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/issue/${sprintId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch issues');
@@ -185,7 +183,6 @@ const SprintDetail = () => {
                       <TableHead>Priority</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Assigned To</TableHead>
-                      <TableHead>Due Date</TableHead>
                       <TableHead>Sub-Issues</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -230,20 +227,6 @@ const SprintDetail = () => {
                         </TableCell>
                         <TableCell>
                           <span className="text-sm">{issue.assignedTo}</span>
-                        </TableCell>
-                        <TableCell>
-                          {issue.dueDate ? (
-                            <div className="flex flex-col">
-                              <span className={`text-sm ${new Date(issue.dueDate) < new Date() && issue.status !== 'Closed' ? 'text-red-600 font-bold' : 'text-gray-600'}`}>
-                                {new Date(issue.dueDate).toLocaleDateString()}
-                              </span>
-                              {new Date(issue.dueDate) < new Date() && issue.status !== 'Closed' && (
-                                <span className="text-[10px] text-red-500 uppercase font-bold">Overdue</span>
-                              )}
-                            </div>
-                          ) : (
-                            <span className="text-sm text-gray-400">No date</span>
-                          )}
                         </TableCell>
                         <TableCell>
                           {issue.subIssues && issue.subIssues.length > 0 ? (

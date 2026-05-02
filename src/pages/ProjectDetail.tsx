@@ -8,7 +8,6 @@ import { Calendar, Users, Edit, Trash2 } from "lucide-react";
 import Layout from "@/components/layout/Layout";
 import SprintForm from "@/components/forms/SprintForm";
 import ProjectForm from "@/components/forms/ProjectForm";
-import { getApiUrl } from "@/lib/utils";
 
 interface Sprint {
   _id: string;
@@ -33,7 +32,7 @@ const ProjectDetail = () => {
     queryKey: ['project', projectId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(getApiUrl(`/api/project/${projectId}`), {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/project/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch project');
@@ -45,7 +44,7 @@ const ProjectDetail = () => {
     queryKey: ['sprints', projectId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(getApiUrl(`/api/sprint/project/${projectId}`), {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/sprint/project/${projectId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch sprints');

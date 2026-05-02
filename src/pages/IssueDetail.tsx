@@ -13,7 +13,6 @@ import Layout from "@/components/layout/Layout";
 import SubIssueForm from "@/components/forms/SubIssueForm";
 import IssueForm from "@/components/forms/IssueForm";
 import { useToast } from "@/hooks/use-toast";
-import { getApiUrl } from "@/lib/utils";
 
 interface Issue {
   _id: string;
@@ -56,7 +55,7 @@ const IssueDetail = () => {
   const deleteIssueMutation = useMutation({
     mutationFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(getApiUrl(`/api/issue/${issueId}`), {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/issue/${issueId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -88,7 +87,7 @@ const IssueDetail = () => {
   const deleteSubIssueMutation = useMutation({
     mutationFn: async (subIssueId: string) => {
       const token = localStorage.getItem('token');
-      const response = await fetch(getApiUrl(`/api/subissue/${subIssueId}`), {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/subissue/${subIssueId}`, {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -117,7 +116,7 @@ const IssueDetail = () => {
     queryFn: async () => {
       const token = localStorage.getItem('token');
       // We need to find the issue by searching through sprints
-      const sprintsResponse = await fetch(getApiUrl("/api/sprint"), {
+      const sprintsResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/sprint`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       
@@ -127,7 +126,7 @@ const IssueDetail = () => {
       // Search through sprints to find the issue
       for (const sprint of sprints) {
         try {
-          const issuesResponse = await fetch(getApiUrl(`/api/issue/${sprint._id}`), {
+          const issuesResponse = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/issue/${sprint._id}`, {
             headers: { Authorization: `Bearer ${token}` },
           });
           
@@ -151,7 +150,7 @@ const IssueDetail = () => {
     queryKey: ['subissues', issueId],
     queryFn: async () => {
       const token = localStorage.getItem('token');
-      const response = await fetch(getApiUrl(`/api/subissue/issue/${issueId}`), {
+      const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/api/subissue/issue/${issueId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       if (!response.ok) throw new Error('Failed to fetch sub-issues');

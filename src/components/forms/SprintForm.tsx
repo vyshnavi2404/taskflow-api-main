@@ -7,7 +7,6 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Plus, Edit } from "lucide-react";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { getApiUrl } from "@/lib/utils";
 
 interface Sprint {
   _id: string;
@@ -33,8 +32,8 @@ const SprintForm = ({ sprint, projectId, onSuccess, trigger }: SprintFormProps) 
     mutationFn: async (sprintData: { sprintName: string; sprintType: string; projectId?: string }) => {
       const token = localStorage.getItem('token');
       const url = isEditing 
-        ? getApiUrl(`/api/sprint/${sprint._id}`)
-        : getApiUrl("/api/sprint");
+        ? `${import.meta.env.VITE_API_BASE_URL}/api/sprint/${sprint._id}`
+        : `${import.meta.env.VITE_API_BASE_URL}/api/sprint`;
       
       const payload = isEditing 
         ? { sprintName: sprintData.sprintName, sprintType: sprintData.sprintType }

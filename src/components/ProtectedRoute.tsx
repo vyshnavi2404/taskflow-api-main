@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { getApiUrl } from "@/lib/utils";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -21,7 +20,7 @@ const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
 
       try {
         // Verify token with the API
-        const response = await fetch(getApiUrl("/auth/me"), {
+        const response = await fetch(`${import.meta.env.VITE_API_BASE_URL}/auth/me`, {
           headers: { Authorization: `Bearer ${token}` },
         });
 
