@@ -185,10 +185,8 @@ const Login = () => {
                       <SelectValue placeholder="Select your role" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="developer">Developer</SelectItem>
-                      <SelectItem value="bd">BD</SelectItem>
-                      <SelectItem value="tester">Tester</SelectItem>
-                      {/* <SelectItem value="manager">Manager</SelectItem> */}
+                      <SelectItem value="Admin">Admin</SelectItem>
+                      <SelectItem value="Member">Member</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>

@@ -24,6 +24,7 @@ interface Issue {
   sprintId: string;
   projectId: string;
   subIssues?: string[];
+  dueDate?: string;
 }
 
 interface Sprint {
@@ -183,6 +184,7 @@ const SprintDetail = () => {
                       <TableHead>Priority</TableHead>
                       <TableHead>Status</TableHead>
                       <TableHead>Assigned To</TableHead>
+                      <TableHead>Due Date</TableHead>
                       <TableHead>Sub-Issues</TableHead>
                       <TableHead className="text-right">Actions</TableHead>
                     </TableRow>
@@ -227,6 +229,20 @@ const SprintDetail = () => {
                         </TableCell>
                         <TableCell>
                           <span className="text-sm">{issue.assignedTo}</span>
+                        </TableCell>
+                        <TableCell>
+                          {issue.dueDate ? (
+                            <div className="flex flex-col">
+                              <span className={`text-sm ${new Date(issue.dueDate) < new Date() && issue.status !== 'Closed' ? 'text-red-600 font-bold' : 'text-gray-600'}`}>
+                                {new Date(issue.dueDate).toLocaleDateString()}
+                              </span>
+                              {new Date(issue.dueDate) < new Date() && issue.status !== 'Closed' && (
+                                <span className="text-[10px] text-red-500 uppercase font-bold">Overdue</span>
+                              )}
+                            </div>
+                          ) : (
+                            <span className="text-sm text-gray-400">No date</span>
+                          )}
                         </TableCell>
                         <TableCell>
                           {issue.subIssues && issue.subIssues.length > 0 ? (

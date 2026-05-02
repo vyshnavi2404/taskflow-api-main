@@ -195,9 +195,9 @@ const Profile = () => {
                       <div>
                         <p className="text-sm font-medium text-gray-500">Role</p>
                         <div className="flex items-center space-x-2">
-                          <p className="text-lg font-semibold text-gray-900 capitalize">{user?.role}</p>
+                          <p className="text-lg font-semibold text-gray-900 capitalize">{user?.role === 'Admin' ? 'Admin' : 'Member'}</p>
                           <Badge variant="secondary" className="text-xs">
-                            {user?.role === 'manager' ? 'Manager' : 'Developer'}
+                            {user?.role === 'Admin' ? 'Administrator' : 'Team Member'}
                           </Badge>
                         </div>
                       </div>
@@ -246,8 +246,8 @@ const Profile = () => {
                   </div>
                   <div className="flex items-center justify-between">
                     <span className="text-sm text-gray-600">Manage Projects</span>
-                    <Badge className={user?.role === 'manager' ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600"}>
-                      {user?.role === 'manager' ? '✓' : '✗'}
+                    <Badge className={user?.role === 'Admin' ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-600"}>
+                      {user?.role === 'Admin' ? '✓' : '✗'}
                     </Badge>
                   </div>
                 </div>

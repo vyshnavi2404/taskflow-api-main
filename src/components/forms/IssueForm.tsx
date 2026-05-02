@@ -20,6 +20,7 @@ interface Issue {
   assignedTo: string;
   sprintId: string;
   projectId: string;
+  dueDate?: string;
 }
 
 interface User {
@@ -70,6 +71,7 @@ const IssueForm = ({ issue, sprintId, projectId, onSuccess, trigger }: IssueForm
             issueType: issueData.issueType,
             priority: issueData.priority,
             assignedTo: issueData.assignedTo,
+            dueDate: issueData.dueDate,
           }
         : { ...issueData, projectId };
 
@@ -115,6 +117,7 @@ const IssueForm = ({ issue, sprintId, projectId, onSuccess, trigger }: IssueForm
       issueType: formData.get("issueType") as string,
       priority: formData.get("priority") as string,
       assignedTo: formData.get("assignedTo") as string,
+      dueDate: formData.get("dueDate") as string,
     };
 
     mutation.mutate(issueData);
@@ -224,6 +227,15 @@ const IssueForm = ({ issue, sprintId, projectId, onSuccess, trigger }: IssueForm
                 </SelectContent>
               </Select>
             </div>
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="dueDate">Due Date</Label>
+            <Input
+              id="dueDate"
+              name="dueDate"
+              type="date"
+              defaultValue={issue?.dueDate ? new Date(issue.dueDate).toISOString().split('T')[0] : ""}
+            />
           </div>
           {error && (
             <Alert className="border-red-200 bg-red-50">
